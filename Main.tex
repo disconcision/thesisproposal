@@ -1,0 +1,302 @@
+% Emerald Publishing - Construction Innovation Submission Template
+% by Oleksandr Melnyk
+% Ver 0.0.4
+% Based on: https://www.emeraldgrouppublishing.com/journal/ci#author-guidelines
+
+
+\documentclass{article}
+
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amssymb}
+\usepackage{siunitx}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[utf8]{inputenc}
+\usepackage[right]{lineno}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{url}
+\usepackage{titlesec}
+%\usepackage[compatibility=false]{caption}
+\usepackage{authblk}
+\usepackage{xcolor} % Load the xcolor package for color options
+\renewcommand{\thetable}{\Roman{table}}
+
+% Define a new format for \subsection
+\titleformat{\subsection}
+  {\mdseries\itshape\large} % Medium series, italic shape, and large font size
+  {\thesubsection}{1em}{} % Numbering, spacing, and the section title itself
+
+
+% Emerald Harvard Citation Style
+
+\usepackage[english]{babel}
+\usepackage[style=authoryear,backend=biber,natbib=true,maxcitenames=2,uniquelist=false]{biblatex}
+\addbibresource{Bibliography.bib} % your .bib file
+
+% Customizing biblatex for Harvard style
+% Customizing biblatex for Harvard style
+\DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{default}{family-given}
+
+\renewbibmacro{in:}{}
+\DeclareFieldFormat[article]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[book]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[bookinbook]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[inbook]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[incollection]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[inproceedings]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[manual]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[misc]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[unpublished]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[patent]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[report]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[online]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[software]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[booklet]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[periodical]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[standard]{title}{\mkbibemph{#1}\addcomma}
+
+\DeclareFieldFormat[article]{journaltitle}{\iffieldundef{shortjournal}{\mkbibemph{#1}\addcomma}{\mkbibemph{\printfield{shortjournal}}\addcomma}}
+\DeclareFieldFormat{volume}{\bibstring{volume}~#1}
+\DeclareFieldFormat{number}{\bibstring{number}~#1}
+
+% Definitions for "Vol." and "No."
+\DefineBibliographyStrings{english}{
+  volume = {Vol.},
+  number = {No.}
+}
+
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
+
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addcomma\space}%
+  \usebibmacro{issue+date}}
+
+\renewbibmacro*{publisher+location+date}{%
+  \printlist{publisher}%
+  \iflistundef{location}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{location}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}}
+
+\renewcommand*{\bibpagespunct}{\addcomma\space}
+
+% Customizing page field format to prevent duplication
+% \DeclareFieldFormat{pages}{%
+%   \mkfirstpage[{\mkpageprefix[page]{#1}}]{#1}}
+
+% Customizing citations for Harvard style
+\DeclareCiteCommand{\cite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\renewbibmacro*{cite:labelyear+extrayear}{%
+  \iffieldundef{labelyear}
+    {}
+    {\printtext[bibhyperref]{%
+       \printfield{labelyear}%
+       \printfield{extrayear}}}}
+
+\renewbibmacro*{cite:labeldate+extradate}{%
+  \iffieldundef{labelyear}
+    {}
+    {\printtext[bibhyperref]{%
+       \printfield{labelyear}%
+       \printfield{extradate}}}}
+
+\AtEveryBibitem{
+  \clearfield{month}
+  \clearfield{day}
+  \ifentrytype{book}{
+    \clearlist{location}
+  }{}
+}
+
+% Formatting "et al." in italics followed by a comma
+\DefineBibliographyStrings{english}{
+  andothers = {\textit{et al.},}
+}
+
+\DeclareFieldFormat[article]{volume}{\bibstring{jourvol}\addnbspace #1}
+\DeclareFieldFormat[article]{number}{\bibstring{number}\addnbspace #1}
+\DeclareFieldFormat[article]{volume}{Vol. #1}
+\DeclareFieldFormat[article]{number}{No. #1}
+% Customizing DOI field format to lowercase "doi"
+%\DeclareFieldFormat{doi}{\bibstring{doi}\addcolon\space\url{#1}}
+
+% Customizing URL field format to "available at:"
+\DeclareFieldFormat{url}{\bibstring{available at}\addcolon\space\url{#1}}
+\DeclareFieldFormat{urldate}{\mkbibparens{accessed \addspace#1}}
+
+% Customizing urldate to match the required format
+\DeclareFieldFormat{urldate}{%
+  \mkbibparens{accessed\space%
+    \thefield{urlday}\addspace%
+    \mkbibmonth{\thefield{urlmonth}}\addspace%
+    \thefield{urlyear}}}
+
+
+% Configure cleveref
+\crefformat{figure}{#2Figure~#1#3}
+\Crefformat{figure}{#2Figure~#1#3}
+\crefformat{table}{#2Table~#1#3}
+\Crefformat{table}{#2Table~#1#3}
+\crefformat{section}{#2Section~#1#3}
+\Crefformat{section}{#2Section~#1#3}
+
+%Front Matter
+\author{Andrew Blinn, University of Michigan}
+
+% \affil{University of Michigan}
+
+% \title{Strategic Protectional Editing for\\Scaffolding and Contextualizing\\ Programming Processes for \\ People and Language Models \\
+\title{Proposal Prospectus:\\ Structured Semantic Context for Programming Processes}
+
+
+\begin{document}
+\maketitle
+\linenumbers
+
+\section{Thesis Statement}
+
+Programming is decision-making, and decisions require context. When programmers read and write syntax, derived semantic information informing their edits, including types, values, and control flow, is often disconnected or distant from the code itself. Bridging this gap requires mental correlation or manual collation---cognitive costs that compound as codebases grow. Modern language servers provide a wealth of such information, but too much information, or irrelevant information, leads to poor decisions. This is especially true for LLM-driven agents, which are prone to over-index on whatever is immediately in front of them. This thesis therefore defends the following claim:
+
+Effective semantic contextualization of programming processes requires iteratively reducing indirection between syntax and derived semantic information, surfacing what is relevant without overwhelming or misleading the decision-maker.
+
+\section{Introduction}
+
+Hi! This is not yet a complete thesis proposal, but represents a close approximation of my research direction for the purposes of committee selection. I'm still tightening up the specifics; if you're interested in serving on my committee, please let me know any particular points you'd want addressed or elaborated on.
+
+My research focuses on user interfaces that expose structured semantic context to inform programming processes for both human and AI programmers. In particular, I am investigating using types and runtime data to collate and annotate code with relevant, actionable semantic information, including suggestions for contextual actions that support structured code authoring and debugging.
+
+This work divides into three phases: 
+
+\begin{itemize}
+    \item \textbf{Finished work: Static Contextualization \cite{staticContext2024}:} Here we used type-directed methods to provide large language models with targeted contextual information during program sketching, driven by typed holes in the Hazel editor. \textbf{Evaluation:} We evaluated the system with a custom benchmark suite, MVUBench, intended to address gaps in the coding benchmark landscape as described in Section 2. We found significant gains in performance in cases which are context-starved or subject to conflation involving name reuse.
+    \item \textbf{Current work: Dynamic Contextualization:} My current focus is Live Probes, a system for programmers to selectively surface intermediate runtime values alongside their code, extending the Hazel live programming features from \cite{omar2019liveholes}. Probes augment live values with other dynamic information like the environment and call stack in a lightweight way to aid comprehension and debugging while mitigating information overload. The implementation is largely complete. \textbf{Evaluation:}  We plan to assess the design using the framework of Information Foraging Theory, and the implementation via a user study. 
+    \item \textbf{Future work: Semantic Context Engineering:} My cumulative project focuses on applying concepts from structured and semantics-driven editing to context engineering for LLM-driven coding agents. We plan to incorporate the extant static and dynamic contextualization implementations as tools to expose to the agent, as well as new tools for structured editing and strategic scaffolding for programming workflows (e.g. type and test-driven development). \textbf{Evaluation:} We will be evaluating coding model performance ablated across combinations of query, editing, and strategy tools.
+\end{itemize}
+
+\section{Static Contextualization}
+
+In \cite{staticContext2024}, we tackled the issue of LLM-based code completion systems hallucinating broken code due to lack of appropriate code context, particularly when working with definitions that are neither in the training data nor near the cursor. We showed that tighter integration with the type and binding structure of the language in use, as exposed by its language server, can address the contextualization problem in a token-efficient manner.
+
+
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{Figures/prompt-construction-new.png}
+  \caption{A programmer requests a hole filling (A) by typing \textbf{??}, either intentionally or in a fit of frustration. The Hazel Language Server provides codebase-wide (B) semantic information relevant to the hole, collecting types based on the expected type (C) and selecting type-relevant headers from the context (D). These are combined into a contextualized text prompt (E) which is sent (F) to the LLM resulting in hole filling (G).}
+  \label{fig:prompt-construction}
+\end{figure}
+
+
+\textbf{Implementation:} In particular, we integrated LLM code generation into the Hazel live program sketching environment. The Hazel Language Server is able to identify the type and typing context of the hole that the programmer is filling, with Hazel's total syntax and type error correction ensuring that a meaningful program sketch is available whenever the developer requests a completion. This allows the system to prompt the LLM with codebase-wide contextual information that is not lexically local to the cursor, nor necessarily in the same file, but that is likely to be semantically local to the developer's goal. Completions synthesized by the LLM are then iteratively refined via further dialog with the language server, which provides error localization and messages.
+
+\textbf{Evaluation:} To evaluate these techniques, we introduced MVUBench, a dataset of model-view-update (MVU) web applications with accompanying unit tests that have been written from scratch to avoid data contamination, and that can easily be ported to new languages because they do not have large external library dependencies. These applications serve as challenge problems due to their extensive reliance on application-specific data structures.
+
+Through an ablation study, we examined the impact of contextualization with type definitions, function headers, and error messages, individually and in combination. We found that contextualization with type definitions is particularly impactful. After introducing our ideas in the context of Hazel, a low-resource language, we duplicated our techniques and ported MVUBench to TypeScript in order to validate the applicability of these methods to higher-resource mainstream languages. We also outlined ChatLSP, a conservative extension to the Language Server Protocol (LSP) that language servers can implement to expose capabilities that AI code completion systems of various designs can use to incorporate static context when generating prompts for an LLM.
+
+
+\section{Dynamic Contextualization with Live Probes}
+
+Programmers routinely step away from code to external consoles and debuggers, incurring indirection costs to correlate behavior with the source. While modern debuggers can render expression values inline, and inline evaluation in editors like Emacs can selectively render values on-demand, when expressions occur inside function literals, both of these depend on using indirect tools (stepwise debuggers) to navigate linearly through a program trace before any values can be seen. Conversely, time-travel or \enquote{omniscient} debugging approaches present an entire programming trace, but typically do so in a way that is entirely removed from the main syntax editor. Ever-popular print statement debugging, on the other hand, presents a very simple interaction model, but still requires a sometimes-cognitively-costly effort to correlate the program trace with the instrumented expressions.
+
+\textbf{Implementation:} Live Probes are the result of our attempt to develop a progressive approach to providing dynamic context to programmers. A probe can be placed on any expression (or pattern) via a context menu or keyboard shortcut, resulting in a sample appearing to the right of the line, presenting a value taken on by that expression during execution; see Figure \ref{fig:probe-1}. If there is more than one such value, arrow keys or on-screen affordances can be used to navigate between them. Alternatively, a keyboard shortcut or GUI toggle can be used to instead show all collected samples in a row. Samples consist not just of values, but also the environment, evaluation context, and call stack when that sample was recorded. We are refining ways to progressively expose this information to users without overwhelming them with unnecessary detail.
+
+The most similar existing work is likely Sorin Lerner's projection boxes \cite{lerner2020projectionboxes}. In comparison, we put particular emphasis on the connection between selected samples across different probes with respect to position in the call stack to give a more global view of how information flows through the program.
+
+\begin{figure}[t]
+  \begin{center}
+  \includegraphics[width=0.7\linewidth]{Figures/celcius.png}
+  \caption{Basic Probe UI. Here there is a probed expression on each line, indicated by the colored underlines. A small number indicates the number of captured samples; 2 each for the three probes within the functions, and 1 for each call site. The sample for the first call site is selected, which results in the samples corresponding to that call in the function literal being highlighted. }
+  \label{fig:probe-1}
+  \end{center}
+\end{figure}
+
+We also have an alternate mode, \textbf{autoprobing}, suitable for debugging and exploratory programming. When enabled, probes are automatically and dynamically placed on heuristically selected expressions of the current top-level definition, one per line, as seen in Figure \ref{fig:probe-4}. This mode enables the user to flexibly steer where probes are placed without the need for an additional control surface, demonstrating intent via line break placement. This mode, in particular the steering via line breaks, was inspired by REPL-driven development. Here though both the expressions whose values are surfaced and their values are provided as you type, updating asynchronously. Autoprobes are intended as a supporting and exploration-oriented feature, suitable as an alternate to using a REPL to try out unfamiliar functions or compose a data transformation pipeline. Using autoprobes, a user can start with tests (TDD) or use sites in live code, and use the resulting live values to inform their writing process without waiting until their implementation is complete.
+
+\begin{figure}[h]
+  \begin{center}
+  \includegraphics[width=0.7\linewidth]{Figures/baseroute.png}
+  \caption{Here a user is implementing a function to extract the base element of a URL. They have already written tests, whose values drive the samples shown. In this example, the string-split function takes two arguments which are both strings; type-based hinting alone won't reveal which is which, but the live values provide clearer indication, possibly preventing an error which might be harder to track down by the time the implementation is actually complete.}
+  \label{fig:probe-4}
+  \end{center}
+\end{figure}
+
+We have also implemented a variety of more advanced features to help with code comprehension and debugging. Figure \ref{fig:probe-5} demonstrates \textbf{call pinning}, used to restrict the number of samples presented.
+
+\begin{figure}[h]
+  \begin{center}
+  \includegraphics[width=0.7\linewidth]{Figures/baseroute-pin.png}
+  \caption{Users can narrow the range of samples shown by selecting the 'pin' option on samples for function calls, which restricts the displayed samples to those downstream of that call.}
+  \label{fig:probe-5}
+  \end{center}
+\end{figure}
+
+Figure \ref{fig:probe-2} illustrates the  \textbf{dynamic cursor}, which allows the user to point to a step in execution, as represented by a given sample, resulting in other samples being styled in ways illustrating their relation to the indicated sample; such as being part of the same function call, or above or below each other in the call stack. We are currently evaluating which such properties are actually useful to expose to users via formative testing.
+
+\begin{figure}[h]
+  \begin{center}
+  \includegraphics[width=0.7\linewidth]{Figures/fib.png}
+  \caption{Here the user has pinned an external call to the recursive function 'fib(6)', which is autoprobed. The dynamic cursor (the red outline around the '2' near the center) 'points' to a particular moment in evaluation, and the other samples are colored according to their relation to the indicated sample. Green samples are part of the same function call, blue samples are from calls under the current call in the call stack, and pink samples are from calls over the current call.}
+  \label{fig:probe-2}
+  \end{center}
+\end{figure}
+
+\textbf{Evaluation:} We plan a design evaluation leveraging Information Foraging Theory and a user study tracking performance and qualitative impressions during debugging and authoring tasks.
+
+
+
+In the IFT framework \cite{IFTDebugging}, more recently employed specifically in the live programming domain by \cite{rein2025information}, a user (termed \enquote{predator}) seeks out information in an environment consisting of a network of information patches linked by traversable edges, each with an associated traversal cost. We intend to use IFT as a lens into the cognitive cost of indirection in programming tasks which typically interleave between examining syntax and runtime data. Foraging here might consist of tracing an unexpected result back to its origin, traversing the program's data dependency graph, reading code fragments to identify both dependencies and suspect logic, and exposing values to form or validate hypotheses. In particular, we offer the ability to navigate across `horizontal' information links between samples of an expression originating at different points in a program trace, a costly movement in a traditional debugger.
+
+For our user study, the goal is to explore whether inline probes reduce indirection and cognitive load relative to print statements, and assess how auto-probing affects errors during program writing. This will likely be a small-N study (N = 9–15 total participants) with an emphasis on think-aloud and post-task interviews.
+
+For the debugging portion we intend to do a between-subjects study comparing Hazel with simple print statement support (our baseline) to Hazel with probes. We are considering an ablation covering a variety of probe features beyond their basic application. The tasks will be debugging programs with failing tests, requiring corrections on the order of 2–4 lines of code in programs ranging from dozens to the low hundreds of lines. For the program writing task, we will be providing a series of small programming tasks featuring provided tests. 
+
+\section{Semantic Context Engineering for AI Coding Agents}
+
+As the programming abilities of LLMs improve, programmers are increasingly using these models as the core of long-running processes intended to accomplish large-scale programming tasks. For our purposes, we consider an \enquote{LLM agent} to be any process which emits calls to external tools in a loop (in our case, code navigation, editing, and contextualization tools) to achieve a goal \cite{willison2025agents}. While results in this domain are impressive, many pitfalls limit current agents, including high costs incurred iterating on syntax errors from improper edit patches, poor or misleading context due to reliance on RAG or plain text search, and failures of models to properly assess what tools can be productively employed in a given context.
+
+We seek to address this through a process we provisionally term Semantic Context Engineering, which incorporates the above static and dynamic contextualization efforts, along with semantically contextualized structured edit actions. We intend to (a) provide a set of semantic query tools for models to build and maintain rich and precise code context, proactively and on-demand, and (b) to help contextually scaffold agent type- and test-driven development processes by providing tools for syntax and semantics-respecting structural edits and refactors to prevent the context-window-filling churn seen with current less structured tools like \texttt{grep} and \texttt{diff}-based patching.
+
+We have built the basic harnesses to support an agentic loop in the Hazel editor, and are currently building out a variety of semantic tools for the model to use. As this is a very active area of research, we are exploring multiple leads, intended to winnow the most promising ones as the project solidifies. Broadly, we characterize our approach as giving the model navigation and semantic query tools to build code context, and then using that code context to selectively suggest to the model what editing tools might be most useful at the current stage in the process. We are exploring the following genres of tools:
+
+\begin{itemize}
+    \item \textbf{Structured editing (in the large)}: Instead of diff-based patches, model edits will be conducted structurally, initially at the level of definitions, featuring actions like `add definition', `update definition', `update function signature', etc.
+    \item \textbf{Structured editing (in the small)}: Instead of code patches per se, we intend to offer more granular actions with clear semantic meaning. For example, an action to case on a particular value from the context, replacing a hole with a match expression, its branches already populated with the patterns of the relevant sum type. Similarly, refactoring actions to raise definitions etc. instead of wholesale rewriting.
+    \item \textbf{Structured search \& navigation}: We are investigating structured ways of providing code maps to the agent by selectively expanding and collapsing branches of the overall code tree according to semantically derived relevance to the current task. For moving the focus within the tree, we will offer the ability to jump to definitions and filter the view to references rather than relying on purely text-based search
+    \item \textbf{Static contextualization}: Both proactive contextualization as in our prior work, when the agent is focused on a hole, and tools for on-demand context, e.g. type-based lookup.
+    \item \textbf{Dynamic contextualization}: We intend to surface the Live Probes for both manual and automatically exposing intermediate values during composition.
+\end{itemize}
+
+\textbf{Implementation}: I am currently supervising two undergraduate students working on the basic scaffolding for an agentic loop in the Hazel editor, building off of the prototype I implemented to support the static contextualization experiments. We have implemented preliminary versions of several of the above tools.
+
+\textbf{Evaluation}: We will evaluate the finished system on an extension of the MVUBench evaluation suite from the static contextualization paper, featuring modification tasks which will be judged using held-out test suites. We intend to ablate over a selection of the above tools. Automated evaluation of coding agents is challenging, as the greater the realistic complexity of the task, the more a satisfying solution tends to be open-ended. We want the agent to be able to make real structural decisions about the code, especially rich fundamental data types, which will help it leverage the most gains out of the semantic tooling. Thus we want a testing strategy that minimizes coupling with application internals. We are investigating a variety of options, including browser-automation-based testing, but the tentative compromise plan is to give the agent prose descriptions which feature the specific data constructors for new actions to be implemented to add to the action type, and specify the signature of the accessor functions which will allow us to automatically extract the aspects of the state we want to test. The former allows us to issue precise commands, at the cost of constraining the shape of the action type, but the latter allows the model to freely determine the core data model type, as long as the accessors remain intact. 
+
+%\break
+\printbibliography
+
+\end{document}
